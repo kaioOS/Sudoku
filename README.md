@@ -1,2 +1,2 @@
 # Sudoku
- Java sudoku implementatio
+ Java sudoku implementation (pt-br)
