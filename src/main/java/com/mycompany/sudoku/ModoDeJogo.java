@@ -9,7 +9,8 @@ import java.util.Scanner;
 
 /**
  *
- * @author User
+ * @author Kaio de Oliveira e Sousa
+ *         202165080AC
  */
 public class ModoDeJogo {
     private Integer [][] tabuleiro = new Integer[9][9];
@@ -64,10 +65,12 @@ public class ModoDeJogo {
                 System.out.println();
             }
     }
+    
     private void imprimeMenu()
     {
-        System.out.println("a)Adiconar jogada\nb)Remover jogada\nc)Verificar\nSair\nDigite a letra da opção desejada ou 'sair' para sair");
+        System.out.println("a)Adiconar jogada\nb)Remover jogada\nc)Verificar\nd)Dica\nSair\nDigite a letra da opção desejada ou 'sair' para sair");
     }
+    
     private boolean validaJogada(int linha, int coluna, int valor)
     {   
         //Verificar nos quadrantes
@@ -81,7 +84,7 @@ public class ModoDeJogo {
             {
                 if(coluna >= 0 && coluna <= 2)//Primeiro bloco da linha k
                 {
-                    for(int i = 0 ; i <= 2; i++)
+                    for(int i = k ; i <= k+2; i++)
                     {
                         for(int j = 0 ; j <= 2; j++)
                         {
@@ -94,7 +97,7 @@ public class ModoDeJogo {
                 }
                 else if(coluna >= 3 && coluna <= 5)//Segundo bloco da linha k
                 {
-                    for(int i = 0 ; i <= 2; i++)
+                    for(int i = k ; i <= k+2; i++)
                     {
                         for(int j = 3 ; j <= 5; j++)
                         {
@@ -107,7 +110,7 @@ public class ModoDeJogo {
                 }
                 else if(coluna >= 6 && coluna <= 8)//Terceiro bloco da linha k
                 {
-                    for(int i = 0 ; i <= 2; i++)
+                    for(int i = k ; i <= k+2; i++)
                     {
                         for(int j = 6 ; j <= 8; j++)
                         {
@@ -152,43 +155,111 @@ public class ModoDeJogo {
             {
                 System.out.println("Digite onde deseja jogar ([linha],[coluna],[valor])");
                 String jogada = teclado.nextLine();
-                String[] posicoes = new String[3];
-                posicoes = jogada.split(",");
-                int linha = Character.getNumericValue((posicoes[0].charAt(0)))-1;
-                int coluna = Character.getNumericValue((posicoes[1].charAt(0)))-1;
-                int valor = Character.getNumericValue((posicoes[2].charAt(0)));
+                String[] posicoes = new String[20];
+                posicoes = jogada.split("\\)");
+                int linha = 0,coluna = 0, valor = 0;
+                for(String posicao: posicoes)
+                {   
+                    posicao = posicao + ")";
+                    //System.out.println(posicao);
+                    int aux = 0;
 
-                if((posicoes[0].length()>1 || posicoes[1].length()>1 || posicoes[2].length()>1)|| (linha<0 || coluna < 0 || valor <= 0))
-                {
-                    System.out.println("Jogada invalida: Valores fora do intervalo permitido de 1 a 9");
+                     for(int i=0; i < posicao.length(); i++)
+                     {
+                         String aux2 = new String();
+                         while(posicao.charAt(i) >= '1' && posicao.charAt(i) <= '9')
+                         {
+                             aux2 = aux2 + posicao.charAt(i);
+                             if(i < posicao.length()-1)
+                             {
+                                 i++;
+                             }
 
+                         }
+
+                         if(aux == 0 && aux2.isEmpty() == false)
+                         {
+                             linha = Integer.parseInt(aux2)-1;
+                             aux++;
+                         }
+                         else if(aux == 1 && aux2.isEmpty() == false)
+                         {
+                             coluna = Integer.parseInt(aux2)-1;
+                             aux++;
+                         }
+                         else if(aux == 2 && aux2.isEmpty() == false)
+                         {
+                             valor = Integer.parseInt(aux2);
+                             aux++;
+                         }
+                        
+                        
+                    }
+                    if((linha > 8 || linha < 0) || (coluna > 8 || coluna < 0) || (valor > 9 || valor < 1) )
+                    {
+                        System.out.println("Jogada Invalida!");       
+                    }
+                    else 
+                    {
+                        this.tabuleiro[linha][coluna] = valor;
+                    }
+                 
                 }
-                else
-                {
-                    this.tabuleiro[linha][coluna] = valor;
-                    
-                }
+                
             }
-            if(opcao.equals("b"))//Remoção
+            else if(opcao.equals("b"))//Remoção
             {
                 System.out.println("Digite onde deseja remover ([linha],[coluna])");
                 String jogada = teclado.nextLine();
-                String[] posicoes = new String[2];
-                posicoes = jogada.split(",");
-                int linha = Character.getNumericValue((posicoes[0].charAt(0)))-1;
-                int coluna = Character.getNumericValue((posicoes[1].charAt(0)))-1;
+                String[] posicoes = new String[20];
+                posicoes = jogada.split("\\)");
+                int linha = 0,coluna = 0;
+                for(String posicao: posicoes)
+                {   
+                    posicao = posicao + ")";
+                    //System.out.println(posicao);
+                    int aux = 0;
 
-                if((posicoes[0].length()>1 || posicoes[1].length()>1 )|| (linha<0 || coluna < 0))
-                {
-                    System.out.println("Jogada invalida: Valores fora do intervalo permitido de 1 a 9");
+                     for(int i=0; i < posicao.length(); i++)
+                     {
+                         String aux2 = new String();
+                         while(posicao.charAt(i) >= '1' && posicao.charAt(i) <= '9')
+                         {
+                             aux2 = aux2 + posicao.charAt(i);
+                             if(i < posicao.length()-1)
+                             {
+                                 i++;
+                             }
 
+                         }
+
+                         if(aux == 0 && aux2.isEmpty() == false)
+                         {
+                             linha = Integer.parseInt(aux2)-1;
+                             aux++;
+                         }
+                         else if(aux == 1 && aux2.isEmpty() == false)
+                         {
+                             coluna = Integer.parseInt(aux2)-1;
+                             aux++;
+                         }
+                        
+                        
+                    }
+                    if((linha > 8 || linha < 0) || (coluna > 8 || coluna < 0) )
+                    {
+                        System.out.println("Jogada Invalida!");       
+                    }
+                    else 
+                    {
+                        this.tabuleiro[linha][coluna] = 0;
+                    }
+                 
                 }
-                else 
-                {
-                    this.tabuleiro[linha][coluna] = 0;
-                }
+
+                
             }
-            if(opcao.equals("c"))//Verificação
+            else if(opcao.equals("c"))//Verificação
             {
                 for(int i = 0; i < 9; i++)
                 {
@@ -204,6 +275,57 @@ public class ModoDeJogo {
                     }
                 }
             }
+            if(opcao.equals("d"))
+            {
+                System.out.println("Digite a ([linha],[coluna]) que deseja receber a dica");
+                String jogada = teclado.nextLine();
+                String[] posicoes = new String[20];
+                posicoes = jogada.split("\\)");
+                int linha = 0,coluna = 0;
+                for(String posicao: posicoes)
+                {   
+                    posicao = posicao + ")";
+                    //System.out.println(posicao);
+                    int aux = 0;
+
+                     for(int i=0; i < posicao.length(); i++)
+                     {
+                         String aux2 = new String();
+                         while(posicao.charAt(i) >= '1' && posicao.charAt(i) <= '9')
+                         {
+                             aux2 = aux2 + posicao.charAt(i);
+                             if(i < posicao.length()-1)
+                             {
+                                 i++;
+                             }
+
+                         }
+
+                         if(aux == 0 && aux2.isEmpty() == false)
+                         {
+                             linha = Integer.parseInt(aux2)-1;
+                             aux++;
+                         }
+                         else if(aux == 1 && aux2.isEmpty() == false)
+                         {
+                             coluna = Integer.parseInt(aux2)-1;
+                             aux++;
+                         }
+                        
+                        
+                    }
+                    if((linha > 8 || linha < 0) || (coluna > 8 || coluna < 0) )
+                    {
+                        System.out.println("Psicao Invalida!");       
+                    }
+                    else 
+                    {
+                        dica(linha,coluna);
+                    }
+                 
+                }
+                
+            }
             if(ganhou())
             {
                 System.out.println("Parabéns você venceu!");
@@ -213,6 +335,7 @@ public class ModoDeJogo {
             opcao = teclado.nextLine();
         }
     }
+    
     private void jogoAleatorio()
     {
         System.out.println("Quantas posições deseja que sejam preenchidas?");
@@ -230,12 +353,17 @@ public class ModoDeJogo {
             int randL;//Linha aleatória
             int randC;//Coluna aleatória
             int randV;//Valor aleatório
+            randL = rand.nextInt(9);
+            randC = rand.nextInt(9);
+            randV = rand.nextInt(8)+1; //1 a 9
             for(int i = 0; i < qtd; i++)
             {
-                randL = rand.nextInt(9);
-                randC = rand.nextInt(9);
-                randV = rand.nextInt(8)+1; //1 a 9
-           
+                while(this.tabuleiro[randL][randC]!=0)
+                {
+                    randL = rand.nextInt(9);
+                    randC = rand.nextInt(9);
+                    randV = rand.nextInt(9)+1; //1 a 9
+                }
                 if(this.tabuleiro[randL][randC] == 0 && validaJogada(randL,randC,randV))
                 {
                     this.tabuleiro[randL][randC] = randV;
@@ -256,38 +384,90 @@ public class ModoDeJogo {
         }
         vamosJogar();
     }
+    private void dica(int linha,int coluna)
+    {
+        int [] vet = new int[9];
+        int cont = 0;
+        for(int i = 1; i< 10; i++)
+        {
+            if(validaJogada(linha,coluna,i))
+            {
+                vet[cont] = i;
+                cont++;
+            }
+        }
+        System.out.print("Os valores validos paraa posicao ("+(linha+1)+","+(coluna+1)+") sao: ");
+        for(int i = 0; i < vet.length; i++)
+        {
+            if(vet[i] != 0)
+                System.out.print(vet[i]+" ");
+        }
+        System.out.println("");
+    }
     private void jogoDefinido()
     {
         Scanner teclado = new Scanner(System.in);
-        String jogada;
+        String jogada = new String();
         System.out.println("Digite onde deseja jogar ([linha],[coluna],[valor])\nDigite sair para comecar o jogo");
         jogada = teclado.nextLine();
-        String[] posicoes = new String[3];
-        int linha, coluna, valor;
+        String[] posicoes = new String[20];
+        int linha = 0, coluna = 0, valor = 0;
         while(jogada.equals("sair") == false)
         {
-          
-           posicoes = jogada.split(",");
-           linha = Character.getNumericValue((posicoes[0].charAt(0)))-1;
-           coluna = Character.getNumericValue((posicoes[1].charAt(0)))-1;
-           valor = Character.getNumericValue((posicoes[2].charAt(0)));
+            posicoes = jogada.split("\\)");
+            for(String posicao: posicoes)
+            {   
+                posicao = posicao + ")";
+                //System.out.println(posicao);
+                int aux = 0;
+                
+                 for(int i=0; i < posicao.length(); i++)
+                 {
+                     String aux2 = new String();
+                     while(posicao.charAt(i) >= '1' && posicao.charAt(i) <= '9')
+                     {
+                         aux2 = aux2 + posicao.charAt(i);
+                         if(i < posicao.length()-1)
+                         {
+                             i++;
+                         }
+                         
+                     }
+                     
+                     if(aux == 0 && aux2.isEmpty() == false)
+                     {
+                         linha = Integer.parseInt(aux2)-1;
+                         aux++;
+                     }
+                     else if(aux == 1 && aux2.isEmpty() == false)
+                     {
+                         coluna = Integer.parseInt(aux2)-1;
+                         aux++;
+                     }
+                     else if(aux == 2 && aux2.isEmpty() == false)
+                     {
+                         valor = Integer.parseInt(aux2);
+                         aux++;
+                     }
+                     //System.out.println("aux "+aux2);
+                     
+                 }
+                 //System.out.println(linha+" "+coluna+" "+valor);
+                 if((linha > 8 || linha < 0) || (coluna > 8 || coluna < 0) || (valor > 9 || valor < 1) )
+                 {
+                      System.out.println("Jogada Invalida!");       
+                 }
+                 else if(validaJogada(linha,coluna,valor))
+                 {
+                     this.tabuleiro[linha][coluna] = valor;
+                     imprimeTabuleiro();
+                 }
+                 else 
+                 {
+                     System.out.println("Jogada invalida!");
 
-           if((posicoes[0].length()>1 || posicoes[1].length()>1 || posicoes[2].length()>1)|| (linha<0 || coluna < 0 || valor <= 0))
-           {
-               System.out.println("Jogada invalida: Valores fora do intervalo permitido de 1 a 9");
-               
-           }
-           else if(validaJogada(linha,coluna,valor))
-           {
-               this.tabuleiro[linha][coluna] = valor;
-               imprimeTabuleiro();
-           }
-           else 
-           {
-               System.out.println("Jogada invalida!");
-            
-           }
-           
+                 }
+            }
            System.out.println("Digite onde deseja jogar ([linha],[coluna],[valor])\nOu digite 'sair' para finalizar");
            jogada = teclado.nextLine();
         }
