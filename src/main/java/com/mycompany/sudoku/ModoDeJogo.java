@@ -330,7 +330,8 @@ public class ModoDeJogo {
             {
                 System.out.println("Parabéns você venceu!");
             }
-            imprimeTabuleiro();
+            if(opcao.equals("d")==false)
+                imprimeTabuleiro();
             imprimeMenu();
             opcao = teclado.nextLine();
         }
